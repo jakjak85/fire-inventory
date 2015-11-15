@@ -15,3 +15,7 @@ libraryDependencies ++= Seq(
 // Play provides two styles of routers, one expects its actions to be injected, the
 // other, legacy style, accesses its actions statically.
 routesGenerator := InjectedRoutesGenerator
+
+libraryDependencies += "org.mongodb" % "mongo-java-driver" % "3.1.1"
+
+fork in run := true
