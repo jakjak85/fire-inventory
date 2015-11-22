@@ -22,6 +22,12 @@ public final class MongoDBAccessor {
 	
 	private MongoDBAccessor()
 	{
+		JSONObject cert1 = new JSONObject();
+		cert1.put("id", "1");
+		cert1.put("name", "FireFighter I");
+		JSONObject cert2 = new JSONObject();
+		cert2.put("id", "2");
+		cert2.put("name", "FireFighter II");
 		JSONObject obj = new JSONObject();
 		obj.put("city", "Conshohocken");
 		obj.put("firstName", "John");
@@ -31,7 +37,7 @@ public final class MongoDBAccessor {
 		obj.put("streetAddress","34 street place" );
 		obj.put("state","CA" );
 		obj.put("zipCode", "12345");
-		obj.put("certificationsIds", Arrays.asList("123", "321"));
+		obj.put("certificationsIds", Arrays.asList(cert1, cert2));
 		//mongoClient = new MongoClient(SERVER, PORT);
 		//mongoDB = mongoClient.getDatabase(DATABASE);
 		rec = new Personnel();
@@ -63,6 +69,22 @@ public final class MongoDBAccessor {
 	}
 	
 	public String getRecord(String firstName, String LastName) {
+		JSONObject cert1 = new JSONObject();
+		cert1.put("id", "1");
+		cert1.put("name", "FireFighter I");
+		JSONObject cert2 = new JSONObject();
+		cert2.put("id", "2");
+		cert2.put("name", "FireFighter II");
+		JSONObject obj = new JSONObject();
+		obj.put("city", "Conshohocken");
+		obj.put("firstName", "John");
+		obj.put("lastName", "doe");
+		obj.put("phoneNumber", "321-654-1425");
+		obj.put("emailAddress", "213@abc.com");
+		obj.put("streetAddress","34 street place" );
+		obj.put("state","CA" );
+		obj.put("zipCode", "12345");
+		obj.put("certificationsIds", Arrays.asList(cert1, cert2));
 		return obj.toJSONString();
 	}
 }

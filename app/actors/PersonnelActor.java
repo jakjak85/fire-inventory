@@ -18,9 +18,9 @@ public class PersonnelActor extends UntypedActor {
 	        this.out = out;
 	    }
 
-	    public void onReceive(Object message) throws Exception {
+	    public void onReceive(Object message) throws Exception {	    	
 	        if (message instanceof String) {
-	            out.tell("I received your message: " + message, self());
+	        	out.tell(accessor.getRecord("John", "Doe"), self());
 	        }
 	    }
 }

@@ -24,8 +24,8 @@ var Certifications = React.createClass({
 		return (<div className="certs"> 
 					<label className="certTitle">Members Certifications</label>
 					<ol>
-			        {results.map(function(result) {
-			          return <li key={result.id}>{result.name}</li>;
+			        {results.map(function(data) {
+			          return <li key={data.id}>{data.name}</li>;
 			        })}
 			      </ol>
 				</div>
@@ -44,6 +44,7 @@ var FieldName = React.createClass({
 var FieldValue = React.createClass({
 	render : function() {
 		return (
+				//TODO: add onchange event
 				<input className={this.props.cName} value={this.props.data} type="text"/>
 		);
 	}
@@ -73,6 +74,21 @@ var Person = React.createClass({
 				);
 	}
 });
+var url = jsRoutes.controllers.Application.socket();
+var connection = new WebSocket(url.webSocketURL());
+
+connection.onmessage = function (e) {
+	var obj = JSON.parse(e.data);
+	ReactDOM.render(<Person info={obj}/>, document.getElementById('content'));
+};
+
+	
+
+connection.onopen = function () {
+	connection.send("{'firstName' : 'John', 'lastName' : 'Doe'}");
+};
+
+
 
 
 
