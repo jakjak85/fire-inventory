@@ -1,0 +1,6 @@
+
+.nameValue, .phoneValue, .emailValue, .strAddrValue, .cityValue, .stateValue, .zipValue 
+{
+	border-radius: 10px;
+	margin-left: 10px;
+}

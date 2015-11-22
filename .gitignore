@@ -5,8 +5,8 @@ bin/
 /lib/
 /logs/
 /modules
-/project/project
-/project/target
+/project
+/target
 /target
 tmp/
 test-result
@@ -23,3 +23,6 @@ target
 /.project
 /.settings
 /RUNNING_PID
+/.sbtserver
+/.settings
+/RemoteSystemsTempFiles

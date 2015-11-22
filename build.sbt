@@ -17,5 +17,8 @@ libraryDependencies ++= Seq(
 routesGenerator := InjectedRoutesGenerator
 
 libraryDependencies += "org.mongodb" % "mongo-java-driver" % "3.1.1"
+libraryDependencies += "org.mongodb" % "bson" % "3.1.1"
+libraryDependencies += "org.projectlombok" % "lombok" % "1.16.6"
+libraryDependencies += "com.googlecode.json-simple" % "json-simple" % "1.1"
 
 fork in run := true
