@@ -1,5 +1,9 @@
 package actors;
 
+
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
+
 import akka.actor.ActorRef;
 import akka.actor.Props;
 import akka.actor.UntypedActor;
@@ -20,7 +24,14 @@ public class PersonnelActor extends UntypedActor {
 
 	    public void onReceive(Object message) throws Exception {	    	
 	        if (message instanceof String) {
-	        	out.tell(accessor.getRecord("John", "Doe"), self());
+	        	String msg = (String)message;
+	        	Object obj = JSONValue.parse(msg);
+	        	JSONObject jObj = (JSONObject)obj;
+	        	Object objFName = jObj.get("firstName");
+	        	Object objLName = jObj.get("lastName");
+	        	String fname = (String)objFName;
+	        	String lname = (String)objLName;
+	        	out.tell(accessor.getRecord(fname, lname), self());
 	        }
 	    }
 }

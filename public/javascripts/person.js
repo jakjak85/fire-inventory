@@ -85,7 +85,8 @@ connection.onmessage = function (e) {
 	
 
 connection.onopen = function () {
-	connection.send("{'firstName' : 'John', 'lastName' : 'Doe'}");
+    var searchParam = {"firstName" : "Peter", "lastName" : "TableMaker"}
+	connection.send(JSON.stringify(searchParam));
 };
 
 
