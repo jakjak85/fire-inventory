@@ -26,3 +26,4 @@ target
 /.sbtserver
 /.settings
 /RemoteSystemsTempFiles
+*.log

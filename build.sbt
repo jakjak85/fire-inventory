@@ -2,7 +2,7 @@ name := """fire-inventory"""
 
 version := "1.0-SNAPSHOT"
 
-lazy val root = (project in file(".")).enablePlugins(PlayJava)
+lazy val root = (project in file(".")).enablePlugins(PlayJava, SbtWeb)
 
 scalaVersion := "2.11.6"
 
@@ -21,4 +21,9 @@ libraryDependencies += "org.mongodb" % "bson" % "3.1.1"
 libraryDependencies += "org.projectlombok" % "lombok" % "1.16.6"
 libraryDependencies += "com.googlecode.json-simple" % "json-simple" % "1.1"
 
+
+pipelineStages := Seq(rjs)
+
 fork in run := true
+
+

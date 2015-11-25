@@ -1,5 +1,14 @@
-
-.nameValue, .phoneValue, .emailValue, .strAddrValue, .cityValue, .stateValue, .zipValue 
+.qfnameValue, 
+.qlnameValue, 
+.fnameValue, 
+.lnameValue, 
+.phoneValue, 
+.emailValue, 
+.strAddrValue, 
+.cityValue, 
+.stateValue, 
+.zipValue, 
+.btn
 {
 	border-radius: 10px;
 	margin-left: 10px;

@@ -6,8 +6,6 @@ import java.util.List;
 
 import org.json.simple.JSONObject;
 
-import personnel.Personnel;
-
 public final class MongoDBAccessor {
 
 	private static final String SERVER = "localhost";
@@ -19,19 +17,18 @@ public final class MongoDBAccessor {
 
 /*	private MongoClient mongoClient;
 	private MongoDatabase mongoDB;*/
-	private Personnel rec;
 	private List<JSONObject> myDb = new ArrayList<JSONObject>();
 	
 	private MongoDBAccessor()
 	{
-		myDb.add(getTestPerson("John", "Doe"));
-		myDb.add(getTestPerson("Peter", "TableMaker"));
-		myDb.add(getTestPerson("Joe", "Smith"));
+		myDb.add(getTestPerson("1", "John", "Doe"));
+		myDb.add(getTestPerson("2", "Peter", "TableMaker"));
+		myDb.add(getTestPerson("3", "Joe", "Smith"));
 		//mongoClient = new MongoClient(SERVER, PORT);
 		//mongoDB = mongoClient.getDatabase(DATABASE);
 
 	}
-	private JSONObject getTestPerson(String fname, String lname)
+	private JSONObject getTestPerson(String id, String fname, String lname)
 	{
 		JSONObject cert1 = new JSONObject();
 		cert1.put("id", "1");
@@ -40,6 +37,7 @@ public final class MongoDBAccessor {
 		cert2.put("id", "2");
 		cert2.put("name", "FireFighter II");
 		JSONObject obj = new JSONObject();
+		obj.put("id", id);
 		obj.put("city", "Conshohocken");
 		obj.put("firstName", fname);
 		obj.put("lastName", lname);
@@ -59,14 +57,36 @@ public final class MongoDBAccessor {
 		return instance;
 	}
 
-	public void updateRecord(Personnel person) {
+	public void updateRecord(JSONObject person) {
+		String id = (String) person.get("id");
+		for (JSONObject p : myDb)
+		{
+			if(p.get("id").equals(id))
+			{
+				p = person;
+			}
+		}
+	}
+
+	public void addRecord(JSONObject person) {
 
 		// mongoDB.getCollection(PERSONNEL).insertOne(
 		// new Document().append("Fname", value)
+		if(getRecordById((String)person.get("id")) == null)
+		{
+			myDb.add(person);
+		}
 	}
-
-	public Personnel getClassRecord(String firstName, String LastName) {
-		return rec;
+	
+	public String getRecordById(String id) {
+		for (JSONObject p : myDb)
+		{
+			if(p.get("id").equals(id))
+			{
+				return p.toJSONString();
+			}
+		}
+		return null;
 	}
 	
 	public String getRecord(String firstName, String lastName) {
