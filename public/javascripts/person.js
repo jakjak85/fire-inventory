@@ -1,17 +1,4 @@
-var Certifications = React.createClass({
-	render : function() {
-		var results = this.props.certs;
-		return (<div className="certs"> 
-					<label className="certTitle">Members Certifications</label>
-					<ol>
-			        {results.map(function(data) {
-			          return <li key={data.id}>{data.name}</li>;
-			        })}
-			      </ol>
-				</div>
-				);
-	}
-});
+
 
 var FieldName = React.createClass({
 	render : function() {
@@ -119,12 +106,12 @@ var Person = React.createClass({
 				<FieldContainer cName="zip" fName="Zip" dName="divZip" data={this.props.info.phoneNumber}/>
 				<ButtonClass onEvent={updateAction} uId={this.props.info.id} val="Update User"/>
 				<ButtonClass onEvent={addAction} uId={this.props.info.id} val="Add As New User"/>
-				<ButtonClass onEvent={removeAction} uId={this.props.info.id} val="Remove User"/>
-				<Certifications certs={this.props.info.certificationsIds} />
+				<ButtonClass onEvent={removeAction} uId={this.props.info.id} val="Remove User"/>				
 				</div>
 				);
 	}
 });
+
 var url = jsRoutes.controllers.Application.socket();
 var connection = new WebSocket(url.webSocketURL());
 

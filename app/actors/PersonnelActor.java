@@ -6,7 +6,8 @@ import org.json.simple.JSONValue;
 import akka.actor.ActorRef;
 import akka.actor.Props;
 import akka.actor.UntypedActor;
-import dataAccess.MongoDBAccessor;
+import dataAccess.DataAccessor;
+import dataAccess.SimpleDataAccessor;
 
 public class PersonnelActor extends UntypedActor {
 	public static Props props(ActorRef out) {
@@ -15,7 +16,7 @@ public class PersonnelActor extends UntypedActor {
 
 	private final ActorRef out;
 
-	private MongoDBAccessor accessor = MongoDBAccessor.getAccessor();
+	private DataAccessor accessor = SimpleDataAccessor.getAccessor();
 
 	public PersonnelActor(ActorRef out) {
 		this.out = out;
@@ -26,8 +27,7 @@ public class PersonnelActor extends UntypedActor {
 			String msg = (String) message;
 			Object obj = JSONValue.parse(msg);
 			JSONObject jObj = (JSONObject) obj;
-			Object msgTypeObj = jObj.get("type");
-			String msgType = (String) msgTypeObj;
+			String msgType = getProperty(jObj, "type");
 			MsgType type = Enum.valueOf(MsgType.class, msgType);
 			determineAction(jObj, type);
 		}
@@ -60,26 +60,50 @@ public class PersonnelActor extends UntypedActor {
 	}
 
 	private void queryAction(JSONObject msg) {
-		Object objFName = msg.get("firstName");
-		Object objLName = msg.get("lastName");
-		String fname = (String) objFName;
-		String lname = (String) objLName;
-		out.tell(accessor.getRecord(fname, lname), self());
+		String fname = getProperty(msg, "firstName");
+		String lname = getProperty(msg, "lastName");
+		String result = accessor.getRecord(fname, lname);
+		if(result != null)
+		{
+			out.tell(result, self());
+		}
+		else
+		{
+			out.tell("{}", self());
+		}
 	}
 	
 	private void queryIdAction(JSONObject msg) {
-		Object objId = msg.get("id");
-		String id = (String) objId;
-		out.tell(accessor.getRecordById(id), self());
+		String id = getProperty(msg, "id");
+		String result = accessor.getRecordById(id);
+		if(result != null)
+		{
+			out.tell(result, self());
+		}
+		else
+		{
+			out.tell("{}", self());
+		}
 	}
 	
 	private void addAction(JSONObject msg) {
-		
+		accessor.addRecord(msg);
 	}
 	private void removeAction(JSONObject msg) {
-		
+		String id = getProperty(msg, "id");
+		accessor.removeUser(id);
+		out.tell("{}", self());
 	}
+	
 	private void updateAction(JSONObject msg) {
 		
+		accessor.updateRecord(msg);
+	}
+	
+	private String getProperty(JSONObject msg, String propId)
+	{
+		Object obj = msg.get(propId);
+		String str = (String) obj;
+		return str;
 	}
 }

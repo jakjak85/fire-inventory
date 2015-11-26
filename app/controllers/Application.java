@@ -6,7 +6,7 @@ import com.ning.http.client.providers.netty.Callback;
 import com.ning.http.client.providers.netty.future.NettyResponseFuture;
 
 import actors.PersonnelActor;
-import dataAccess.MongoDBAccessor;
+import dataAccess.SimpleDataAccessor;
 import play.Routes;
 import play.mvc.Controller;
 import play.mvc.Result;
