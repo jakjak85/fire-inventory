@@ -25,13 +25,13 @@ public final class SimpleDataAccessor implements DataAccessor {
 	private JSONObject getTestPerson(String id, String fname, String lname)
 	{
 		JSONObject cert1 = new JSONObject();
-		cert1.put("id", "1");
+		cert1.put("_id", "1");
 		cert1.put("name", "FireFighter I");
 		JSONObject cert2 = new JSONObject();
-		cert2.put("id", "2");
+		cert2.put("_id", "2");
 		cert2.put("name", "FireFighter II");
 		JSONObject obj = new JSONObject();
-		obj.put("id", id);
+		obj.put("_id", id);
 		obj.put("city", "Conshohocken");
 		obj.put("firstName", fname);
 		obj.put("lastName", lname);
@@ -56,7 +56,7 @@ public final class SimpleDataAccessor implements DataAccessor {
 	 */
 	@Override
 	public void updateRecord(JSONObject person) {
-		String id = (String) person.get("id");
+		String id = (String) person.get("_id");
 		if(removeUser(id))
 		{
 			addRecord(person);
@@ -72,7 +72,7 @@ public final class SimpleDataAccessor implements DataAccessor {
 		JSONObject itemToRemove = null;
 		for (JSONObject p : myDb)
 		{
-			if(p.get("id").equals(id))
+			if(p.get("_id").equals(id))
 			{
 				itemToRemove = p;
 				break;
@@ -94,9 +94,9 @@ public final class SimpleDataAccessor implements DataAccessor {
 
 		// mongoDB.getCollection(PERSONNEL).insertOne(
 		// new Document().append("Fname", value)
-		if(getRecordById((String)person.get("id")) == null)
+		if(getRecordById((String)person.get("_id")) == null)
 		{
-			person.put("id", String.valueOf(userId));
+			person.put("_id", String.valueOf(userId));
 			userId++;
 			myDb.add(person);
 		}
@@ -109,7 +109,7 @@ public final class SimpleDataAccessor implements DataAccessor {
 	public String getRecordById(String id) {
 		for (JSONObject p : myDb)
 		{
-			if(p.get("id").equals(id))
+			if(p.get("_id").equals(id))
 			{
 				return p.toJSONString();
 			}

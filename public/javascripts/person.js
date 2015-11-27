@@ -58,7 +58,7 @@ var addAction = function(id) {
 
 var removeAction = function(id) {
 	var vals = {
-			"id": id,
+			"_id": id,
 			"type" : "REMOVE"
 	};
 	connection.send(JSON.stringify(vals));
@@ -76,7 +76,7 @@ var queryAction = function()
 var fieldsToJSON = function(id, type) {
 	var vals = {
 			"type" : type,
-			"id": id,
+			"_id": id,
 			"city" : $('.cityValue').val(), 
 			"firstName" : $('.fnameValue').val(),
 			"lastName" : $('.lnameValue').val(),
@@ -104,9 +104,9 @@ var Person = React.createClass({
 				<FieldContainer cName="city" fName="City" dName="divCity" data={this.props.info.city}/>
 				<FieldContainer cName="state" fName="State" dName="divState" data={this.props.info.state}/>
 				<FieldContainer cName="zip" fName="Zip" dName="divZip" data={this.props.info.phoneNumber}/>
-				<ButtonClass onEvent={updateAction} uId={this.props.info.id} val="Update User"/>
-				<ButtonClass onEvent={addAction} uId={this.props.info.id} val="Add As New User"/>
-				<ButtonClass onEvent={removeAction} uId={this.props.info.id} val="Remove User"/>				
+				<ButtonClass onEvent={updateAction} uId={this.props.info._id} val="Update User"/>
+				<ButtonClass onEvent={addAction} uId={this.props.info._id} val="Add As New User"/>
+				<ButtonClass onEvent={removeAction} uId={this.props.info._id} val="Remove User"/>				
 				</div>
 				);
 	}
@@ -122,6 +122,6 @@ connection.onmessage = function (e) {
 };
 
 connection.onopen = function () {
-    var searchParam = { "type" : "QUERYID", "id" : "1"}
+    var searchParam = { "type" : "QUERYID", "_id" : "1"}
 	connection.send(JSON.stringify(searchParam));
 };

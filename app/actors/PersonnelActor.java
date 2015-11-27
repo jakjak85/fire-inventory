@@ -7,7 +7,7 @@ import akka.actor.ActorRef;
 import akka.actor.Props;
 import akka.actor.UntypedActor;
 import dataAccess.DataAccessor;
-import dataAccess.SimpleDataAccessor;
+import dataAccess.MongoDBDataAccessor;
 
 public class PersonnelActor extends UntypedActor {
 	public static Props props(ActorRef out) {
@@ -16,7 +16,7 @@ public class PersonnelActor extends UntypedActor {
 
 	private final ActorRef out;
 
-	private DataAccessor accessor = SimpleDataAccessor.getAccessor();
+	private DataAccessor accessor = MongoDBDataAccessor.getAccessor();
 
 	public PersonnelActor(ActorRef out) {
 		this.out = out;
@@ -74,7 +74,7 @@ public class PersonnelActor extends UntypedActor {
 	}
 	
 	private void queryIdAction(JSONObject msg) {
-		String id = getProperty(msg, "id");
+		String id = getProperty(msg, "_id");
 		String result = accessor.getRecordById(id);
 		if(result != null)
 		{
@@ -90,7 +90,7 @@ public class PersonnelActor extends UntypedActor {
 		accessor.addRecord(msg);
 	}
 	private void removeAction(JSONObject msg) {
-		String id = getProperty(msg, "id");
+		String id = getProperty(msg, "_id");
 		accessor.removeUser(id);
 		out.tell("{}", self());
 	}
