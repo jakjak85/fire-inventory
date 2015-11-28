@@ -14,4 +14,5 @@ public interface DataAccessor {
 
 	String getRecord(String firstName, String lastName);
 
+	String getAnyRecord();
 }

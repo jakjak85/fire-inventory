@@ -122,6 +122,6 @@ connection.onmessage = function (e) {
 };
 
 connection.onopen = function () {
-    var searchParam = { "type" : "QUERYID", "_id" : "1"}
-	connection.send(JSON.stringify(searchParam));
+    var searchParam = { "type" : "QUERYANY"}
+	connection.send(JSON.stringify(searchParam));   
 };

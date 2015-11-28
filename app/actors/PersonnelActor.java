@@ -4,10 +4,13 @@ import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
 import akka.actor.ActorRef;
+import akka.actor.ActorSelection;
 import akka.actor.Props;
 import akka.actor.UntypedActor;
+import akka.routing.Broadcast;
 import dataAccess.DataAccessor;
 import dataAccess.MongoDBDataAccessor;
+import play.Logger;
 
 public class PersonnelActor extends UntypedActor {
 	public static Props props(ActorRef out) {
@@ -50,15 +53,31 @@ public class PersonnelActor extends UntypedActor {
 		case QUERYID:
 			queryIdAction(msg);
 			break;
+		case QUERYANY:
+			queryAnyAction();
+			break;
 		default:
 			break;
 		}
 	}
 
 	private enum MsgType {
-		UPDATE, ADD, REMOVE, QUERY, QUERYID
+		UPDATE, ADD, REMOVE, QUERY, QUERYID, QUERYANY
 	}
 
+	private void queryAnyAction() {
+		String result = accessor.getAnyRecord();
+		if(result != null)
+		{
+			out.tell(result, self());
+			
+		}
+		else
+		{
+			out.tell("{}", self());
+		}
+	}
+	
 	private void queryAction(JSONObject msg) {
 		String fname = getProperty(msg, "firstName");
 		String lname = getProperty(msg, "lastName");
@@ -66,6 +85,7 @@ public class PersonnelActor extends UntypedActor {
 		if(result != null)
 		{
 			out.tell(result, self());
+			
 		}
 		else
 		{
@@ -96,8 +116,7 @@ public class PersonnelActor extends UntypedActor {
 	}
 	
 	private void updateAction(JSONObject msg) {
-		
-		accessor.updateRecord(msg);
+		accessor.updateRecord(msg);		
 	}
 	
 	private String getProperty(JSONObject msg, String propId)

@@ -25,5 +25,3 @@ libraryDependencies += "com.googlecode.json-simple" % "json-simple" % "1.1"
 pipelineStages := Seq(rjs)
 
 fork in run := true
-
-

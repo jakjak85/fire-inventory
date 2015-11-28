@@ -72,7 +72,8 @@ public final class MongoDBDataAccessor implements DataAccessor {
 	@Override
 	public String getRecordById(String id) {
 		try {
-			FindIterable<Document> iterable = mongoDB.getCollection(PERSONNEL).find(new Document("_id", id));
+			FindIterable<Document> iterable = mongoDB.getCollection(PERSONNEL)
+					.find(new Document("_id", new ObjectId(id)));
 			Document doc = iterable.first();
 			if (doc != null) {
 				return toJSONObject(doc).toJSONString();
@@ -87,9 +88,22 @@ public final class MongoDBDataAccessor implements DataAccessor {
 	@Override
 	public String getRecord(String firstName, String lastName) {
 		try {
-			FindIterable<Document> iterable = mongoDB.getCollection(PERSONNEL)
-					.find(new Document("firstName", firstName).append("lastName", lastName));
-			Document doc = iterable.first();
+			Document doc = mongoDB.getCollection(PERSONNEL)
+					.find(new Document("firstName", firstName).append("lastName", lastName)).first();
+			if (doc != null) {
+				return toJSONObject(doc).toJSONString();
+			}
+			return null;
+		} catch (Exception e) {
+			Logger.info("Error getting by name", e);
+			return null;
+		}
+	}
+
+	@Override
+	public String getAnyRecord() {
+		try {
+			Document doc = mongoDB.getCollection(PERSONNEL).find().first();
 			if (doc != null) {
 				return toJSONObject(doc).toJSONString();
 			}
