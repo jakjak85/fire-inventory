@@ -83,15 +83,16 @@ public class PersonnelActor extends UntypedActor {
 		String fname = getProperty(msg, "firstName");
 		String lname = getProperty(msg, "lastName");
 		String result = accessor.getRecord(fname, lname);
-		Object obj = JSONValue.parse(result);
-		JSONObject jObj = (JSONObject) obj;
-		String id = getProperty(jObj, "_id");
+		
 		if (result != null) {
 			out.tell(result, self());
+			Object obj = JSONValue.parse(result);
+			JSONObject jObj = (JSONObject) obj;
+			String id = getProperty(jObj, "_id");
+			startWatch(id, result);
 		} else {
 			out.tell("{}", self());
 		}
-		startWatch(id, result);
 	}
 
 	private void queryIdAction(JSONObject msg) {
@@ -99,10 +100,10 @@ public class PersonnelActor extends UntypedActor {
 		String result = accessor.getRecordById(id);
 		if (result != null) {
 			out.tell(result, self());
+			startWatch(id, result);
 		} else {
 			out.tell("{}", self());
 		}
-		startWatch(id, result);
 	}
 
 	private void addAction(JSONObject msg) {
@@ -157,7 +158,12 @@ public class PersonnelActor extends UntypedActor {
 				try {
 					Thread.sleep(1000);
 					String newObject = accessor.getRecordById(objectId);
-					if (!objectWatch.equals(newObject)) {
+					if(newObject == null)
+					{
+						out.tell("{}", self());
+						stop();
+					}
+					else if (!objectWatch.equals(newObject)) {
 						out.tell(newObject, self());
 						objectWatch = newObject;
 					}
